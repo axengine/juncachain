@@ -25,6 +25,7 @@ jobs:
       run: |
         make
         echo ${{ github.ref }}
+        echo junca_${{ steps.get_version.outputs.VERSION }}.tar.gz
         tar -cvf junca_${{ steps.get_version.outputs.VERSION }}.tar.gz ./build/bin/junca
 
     - name: Create Release and Upload Release Asset
@@ -37,3 +38,5 @@ jobs:
         draft: false
         prerelease: false
         files: junca_${{ steps.get_version.outputs.VERSION }}.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
