@@ -1,7 +1,7 @@
 # This workflow will build a golang project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
-name: Go Build And Release
+name: Junca Build And Release
 
 on:
   push:
@@ -29,7 +29,6 @@ jobs:
       run: |
         make
         echo ${{ github.ref }}
-        echo ${{ github.event.release.tag_name }}
         echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
         echo "Tag name from github.ref_name: ${{  github.ref_name }}"
         tar -cvf junca_${{ github.ref_name }}_Linux_amd64.tar.gz ./build/bin/junca
@@ -40,7 +39,7 @@ jobs:
       with:
         tag_name: ${{ github.ref }}
         name: Release ${{ github.ref }}
-        body: TODO New Release.
+        body: New Release ${{ github.ref_name }}.
         draft: false
         prerelease: false
         files: junca_${{ github.ref_name }}_Linux_amd64.tar.gz
