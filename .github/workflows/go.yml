@@ -21,11 +21,15 @@ jobs:
         go-version: 1.17
         cache: true
 
+    - name: Get Version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs/\tags\//}
+
     - name: Build
       run: |
         make
-        echo ${{ tag_name }}
-        tar -cvf junca_${{ tag_name }}.tar.gz ./build/bin/junca
+        echo ${{ steps.get_version.outputs.VERSION }}
+        tar -cvf junca_${{ steps.get_version.outputs.VERSION }}.tar.gz ./build/bin/junca
 
     - name: Create Release and Upload Release Asset
       uses: softprops/action-gh-release@v1
@@ -36,4 +40,4 @@ jobs:
         body: TODO New Release.
         draft: false
         prerelease: false
-        files: junca_${{ tag_name }}.tar.gz
+        files: junca_${{ steps.get_version.outputs.VERSION }}.tar.gz
