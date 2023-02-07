@@ -262,6 +262,9 @@ func buildFlags(env build.Environment, staticLinking bool, buildTags []string) (
 	if runtime.GOOS == "darwin" {
 		ld = append(ld, "-s")
 	}
+	fmt.Println("runtime.GOOS", runtime.GOOS)
+	fmt.Println("runtime.GOARCH", runtime.GOARCH)
+
 	if runtime.GOOS == "linux" {
 		// Enforce the stacksize to 8M, which is the case on most platforms apart from
 		// alpine Linux.
