@@ -30,6 +30,8 @@ jobs:
         make
         echo ${{ github.ref }}
         echo ${{ github.event.release.tag_name }}
+        echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
+        echo "Tag name from github.ref_name: ${{  github.ref_name }}"
         tar -cvf junca_${{ github.event.release.tag_name }}_Linux_amd64.tar.gz ./build/bin/junca
 
     - name: Create Release and Upload Release Asset
@@ -41,6 +43,6 @@ jobs:
         body: TODO New Release.
         draft: false
         prerelease: false
-        files: junca_${{ github.event.release.tag_name }}_Linux_amd64.tar.gz
+        files: junca_${{ github.ref_name }}_Linux_amd64.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
