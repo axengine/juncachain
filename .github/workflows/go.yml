@@ -29,7 +29,8 @@ jobs:
       run: |
         make
         echo ${{ github.ref }}
-        tar -cvf junca.tar.gz ./build/bin/junca
+        echo ${{ github.event.release.tag_name }}
+        tar -cvf junca_${{ github.event.release.tag_name }}_Linux_amd64.tar.gz ./build/bin/junca
 
     - name: Create Release and Upload Release Asset
       uses: softprops/action-gh-release@v1
@@ -40,6 +41,6 @@ jobs:
         body: TODO New Release.
         draft: false
         prerelease: false
-        files: junca.tar.gz
+        files: junca_${{ github.event.release.tag_name }}_Linux_amd64.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
