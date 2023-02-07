@@ -1,13 +1,12 @@
 # This workflow will build a golang project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
 
-name: Go
+name: Go Build And Release
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags:
+      - "v*"
 
 jobs:
 
@@ -23,10 +22,18 @@ jobs:
         cache: true
 
     - name: Build
-      run: make
+      run: |
+        make
+        echo ${{ tag_name }}
+        tar -cvf junca_${{ tag_name }}.tar.gz ./build/bin/junca
 
-    - name: Upload Go build results
-      uses: actions/upload-artifact@v3
+    - name: Create Release and Upload Release Asset
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
       with:
-        name: Go-results
-        path: ./build/bin/junca
+        tag_name: ${{ github.ref }}
+        name: Release ${{ github.ref }}
+        body: TODO New Release.
+        draft: false
+        prerelease: false
+        files: junca_${{ tag_name }}.tar.gz
