@@ -25,7 +25,7 @@ jobs:
     - name: Build
       run: make
 
-  - name: Upload Go build results
+    - name: Upload Go build results
       uses: actions/upload-artifact@v3
       with:
         name: Go-results
