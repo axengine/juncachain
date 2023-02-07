@@ -8,6 +8,10 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: write
+  discussions: write
+
 jobs:
 
   build:
@@ -25,8 +29,7 @@ jobs:
       run: |
         make
         echo ${{ github.ref }}
-        echo junca_${{ steps.get_version.outputs.VERSION }}.tar.gz
-        tar -cvf junca_${{ steps.get_version.outputs.VERSION }}.tar.gz ./build/bin/junca
+        tar -cvf junca.tar.gz ./build/bin/junca
 
     - name: Create Release and Upload Release Asset
       uses: softprops/action-gh-release@v1
@@ -37,6 +40,6 @@ jobs:
         body: TODO New Release.
         draft: false
         prerelease: false
-        files: junca_${{ steps.get_version.outputs.VERSION }}.tar.gz
+        files: junca.tar.gz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
