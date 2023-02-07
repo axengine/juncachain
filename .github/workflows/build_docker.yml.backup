@@ -28,4 +28,4 @@ jobs:
 
       - name: Build
         run: |
-          go run build/ci.go docker -image -manifest amd64,arm64 -upload ethereum/client-go
+          go run build/ci.go install ./cmd/junca
